@@ -160,6 +160,10 @@ options.selectedIndex (Array)
 
 筛选器初始化默认选择的数据索引，是一个二维数组，第一维表示列的序号，第二维表示每列的行号，从 0 开始。
 
+options.container (string or element)
+
+筛选器默认的容器，传入选择器（"#id"，".selecter"）or document.querySelector("")，默认为弹出模式。
+
 ### 事件
 picker.change
 
