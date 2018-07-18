@@ -13,7 +13,8 @@
     font-size: 20px;
     text-align: center;
   }
-  #chose {
+
+  .chose{
     width: 80%;
     height: 50px;
     border: 1px solid #ccc;
@@ -23,10 +24,23 @@
     text-align: center;
     font-size: 20px;
   }
+
+  #containerDiv{
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    height: 150px;
+    border-radius: 10px;
+    border: 1px solid;
+    background-color: #8bbdef;
+    overflow: hidden;
+  }
 </style>
 <body>
   <h3>Picker</h3>
-  <div id="chose">选择城市</div>
+  <div id="chose" class="chose">选择城市</div>
+  <!-- containerDiv为嵌入对象 -->
+  <div id="containerDiv"></div>
   <script src="city.js"></script>
   <script src="/assets/picker.js"></script>
   <script src="index.js"></script>

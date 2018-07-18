@@ -19,26 +19,45 @@ export default class Picker extends EventEmitter {
       data: [],
       title: '',
       selectedIndex: null,
-      showCls: 'show'
+      showCls: 'show',
+      container: null
     };
 
     extend(this.options, options);
 
+    this.container = this.options.container;
+    this.inline = !!this.container;
     this.data = this.options.data;
     this.pickerEl = createDom(pickerTemplate({
       data: this.data,
       title: this.options.title
     }));
 
-    document.body.appendChild(this.pickerEl);
+    if (this.container) {
+      if (typeof (this.container) === 'string') {
+         this.container = document.querySelector(this.container);
+      }
+    } else {
+       this.container = document.body;
+    }
+     this.container.appendChild(this.pickerEl);
 
+    this.pickerChoose = this.pickerEl.getElementsByClassName('picker-choose')[0];
+    this.pickerFooter = this.pickerEl.getElementsByClassName('picker-footer')[0];
+    this.pickerPanel = this.pickerEl.getElementsByClassName('picker-panel')[0];
     this.maskEl = this.pickerEl.getElementsByClassName('mask-hook')[0];
     this.wheelEl = this.pickerEl.getElementsByClassName('wheel-hook');
     this.panelEl = this.pickerEl.getElementsByClassName('panel-hook')[0];
     this.confirmEl = this.pickerEl.getElementsByClassName('confirm-hook')[0];
     this.cancelEl = this.pickerEl.getElementsByClassName('cancel-hook')[0];
     this.scrollEl = this.pickerEl.getElementsByClassName('wheel-scroll-hook');
-
+    if (this.inline) {
+      this.pickerEl.style.position = 'absolute';
+      this.pickerEl.style.height = '100%';
+      this.pickerPanel.style.height = '100%';
+      this.pickerChoose.style.display = 'none';
+      this.pickerFooter.style.display = 'none';
+    }
     this._init();
   }
 
@@ -54,6 +73,9 @@ export default class Picker extends EventEmitter {
     }
 
     this._bindEvent();
+    if (this.inline) {
+      this.show();
+    }
   }
 
   _bindEvent() {
@@ -114,7 +136,7 @@ export default class Picker extends EventEmitter {
     let showCls = this.options.showCls;
 
     window.setTimeout(() => {
-      addClass(this.maskEl, showCls);
+      !this.inline && addClass(this.maskEl, showCls);
       addClass(this.panelEl, showCls);
 
       if (!this.wheels) {
@@ -133,6 +155,9 @@ export default class Picker extends EventEmitter {
   }
 
   hide() {
+    if (this.inline) {
+      return;
+    }
     let showCls = this.options.showCls;
     removeClass(this.maskEl, showCls);
     removeClass(this.panelEl, showCls);

@@ -34,7 +34,8 @@ if (city[selectedIndex[0]].sub[selectedIndex[1]].hasOwnProperty('sub')) {
 var picker = new Picker({
 	data: [first, second, third],
   selectedIndex: selectedIndex,
-	title: '地址选择'
+	title: '地址选择',
+  container: '#containerDiv'
 });
 
 picker.on('picker.select', function (selectedVal, selectedIndex) {
